@@ -1,0 +1,82 @@
+/* Generel Styling */
+
+*,
+::after,
+::before,
+html {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: aboreto, Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* Spezific Styling */
+
+body {
+  background-color: beige;
+  background-image: url(https://images.pexels.com/photos/10980580/pexels-photo-10980580.jpeg);
+  background-size: 100rem;
+}
+
+header {
+  background-color: burlywood;
+
+  width: 100%;
+  height: 20%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+@media screen and (max-width: 350px) {
+  header {
+    margin: auto auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+h1 {
+  text-align: center;
+}
+
+button {
+  font-family: aboreto;
+
+  border-radius: 5rem;
+  border: solid black;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+
+  background-image: linear-gradient(
+    0.45turn,
+    aquamarine,
+    burlywood,
+    aquamarine
+  );
+  box-shadow: 3px 3px 4px blanchedalmond;
+}
+button:hover {
+  cursor: pointer;
+  transition: 0.5s;
+  transform: translate(0.2rem, -0.2rem);
+}
+
+main {
+  margin: 15% 20% 0 20%;
+  text-align: center;
+}
+
+.quote {
+  font-size: larger;
+}
+.author {
+  font-style: italic;
+}
