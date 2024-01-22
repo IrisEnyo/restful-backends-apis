@@ -15,9 +15,7 @@ if (quotes.length === 0) {
 quoteList.append(quotes[0].quote, " - " + quotes[0].author);
 
 // Add button with eventhandler to get quotes by click
-button.addEventListener("click", () => {
-  getQuote();
-});
+button.addEventListener("click", getQuote);
 
 // Function to get/fetch and render/display the quote from the API
 function getQuote() {
@@ -39,7 +37,5 @@ function getQuote() {
       author.append(document.createTextNode("- " + data.author));
 
       quoteList.append(quote, author);
-      // quoteList.append(document.createTextNode(data.quote));
-      // quoteList.append(document.createTextNode(data.author));
     });
 }
