@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDo-App</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/normalize.css@8.0.1/normalize.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Todo App</h1>
+      <h2>Filter</h2>
+      <section class="filter" id="filter-section">
+        <label for="all"
+          >All
+          <input type="radio" name="filter" id="all" value="all" checked />
+        </label>
+
+        <label for="open"
+          >Open
+          <input type="radio" name="filter" id="open" value="open" />
+        </label>
+
+        <label for="done"
+          >Done
+          <input type="radio" name="filter" id="done" value="done" />
+        </label>
+      </section>
+
+      <section class="remove-button">
+        <button type="reset" id="remove">Remove done Todos</button>
+      </section>
+    </header>
+    <main>
+      <h2>To-Do´s</h2>
+      <form id="add-form">
+        <input
+          type="text"
+          id="input-todo"
+          placeholder="What needs to be done?"
+        />
+        <button type="submit" id="submit">Add</button>
+      </form>
+
+      <ul id="todo-list"></ul>
+    </main>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
