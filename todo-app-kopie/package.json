@@ -1,0 +1,14 @@
+{
+  "name": "todo-app-with-api",
+  "version": "1.0.0",
+  "description": "this app gets the todos by an api",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "i.h.",
+  "license": "ISC",
+  "dependencies": {
+    "todo-api": "github:coding-bootcamps-eu/todo-api"
+  }
+}
