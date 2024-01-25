@@ -7,11 +7,11 @@ const filterSection = document.getElementById("filter-section");
 // Load state from API
 let todos = [];
 
-// Add a default todo to the app state
 if (todos.length === 0) {
   todos.push({ id: 1, description: "Set your priority!", done: false });
 }
 
+// Load Todo from API
 function loadTodoFromApi() {
   fetch("http://localhost:4730/todos")
     .then((response) => response.json())
@@ -39,6 +39,7 @@ function renderTodos() {
       selectedFilter === "all"
     ) {
       const newTodoLi = document.createElement("li");
+      newTodoLi.dataset.id = todo.id;
       newTodoLi.innerText = todo.description;
 
       const checkBox = document.createElement("input");
@@ -112,6 +113,17 @@ todoList.addEventListener("change", function (e) {
     todo.id === todoId ? { ...todo, done: checkbox.checked } : todo
   );
 
+  fetch(`http://localhost:4730/todos/${todoId}`, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ done: checkbox.checked }),
+  })
+    .then((response) => response.json())
+    .then((updatedTodoFromApi) => {
+      console.log(updatedTodoFromApi);
+    });
   // Update local storage and render todos
   renderTodos();
 });
@@ -120,9 +132,19 @@ todoList.addEventListener("change", function (e) {
 remove.addEventListener("click", function () {
   todos = todos.filter((todo) => !todo.done);
 
-  // Update local storage and render todos
-  renderTodos();
-});
+  fetch(`http://localhost:4730/todos`, {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({ done: true }),
+  }).then((response) => {
+    if (!response.ok) {
+      // Handle error if needed
+      console.error("Error removing done todos from the server");
+    }
 
-// Initial render
-renderTodos();
+    // Update local storage and render todos
+    renderTodos();
+  });
+});
