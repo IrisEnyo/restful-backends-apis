@@ -82,9 +82,10 @@ function addTodo() {
     body: JSON.stringify(newTodo),
   })
     .then((response) => response.json())
-    .then((apiTodos) => {
-      todos.push(apiTodos);
+    .then((apiTodo) => {
+      todos.push(apiTodo);
       renderTodos();
+      console.log(apiTodo);
 
       inputTodo.value = "";
     });
@@ -108,6 +109,9 @@ todoList.addEventListener("change", function (e) {
   const li = checkbox.parentElement;
   const todoId = parseInt(li.dataset.id);
 
+  const todo = todos.find((todo) => todo.id === todoId);
+  const description = todo.description;
+
   // Update the state when the checkbox is changed
   todos = todos.map((todo) =>
     todo.id === todoId ? { ...todo, done: checkbox.checked } : todo
@@ -118,13 +122,17 @@ todoList.addEventListener("change", function (e) {
     headers: {
       "content-type": "application/json",
     },
-    body: JSON.stringify({ done: checkbox.checked }),
+    body: JSON.stringify({
+      done: checkbox.checked,
+      description: description,
+    }),
   })
     .then((response) => response.json())
-    .then((updatedTodoFromApi) => {
-      console.log(updatedTodoFromApi);
+    .then((apiTodo) => {
+      console.log(apiTodo);
     });
-  // Update local storage and render todos
+
+  // Update API and render todos
   renderTodos();
 });
 
@@ -132,19 +140,32 @@ todoList.addEventListener("change", function (e) {
 remove.addEventListener("click", function () {
   todos = todos.filter((todo) => !todo.done);
 
-  fetch(`http://localhost:4730/todos`, {
-    method: "DELETE",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: JSON.stringify({ done: true }),
-  }).then((response) => {
-    if (!response.ok) {
-      // Handle error if needed
-      console.error("Error removing done todos from the server");
-    }
+  const checkedCheckboxes = todoList.querySelectorAll(
+    'input[type="checkbox"]:checked'
+  );
 
-    // Update local storage and render todos
+  checkedCheckboxes.forEach(function (checkbox) {
+    const li = checkbox.parentElement;
+    const todoId = parseInt(li.dataset.id);
+
+    fetch(`http://localhost:4730/todos/${todoId}`, {
+      method: "DELETE",
+    }).then((response) => {
+      if (!response.ok) {
+        const todoIndex = todos.findIndex((todo) => todo.id === todoId);
+
+        if (todoIndex !== -1) {
+          todos.splice(todoIndex, 1);
+
+          li.remove();
+        } else {
+          // Handle error if needed
+          console.error("Error removing done todos from the server");
+        }
+      }
+    });
+
+    // Update API and render todos
     renderTodos();
   });
 });
